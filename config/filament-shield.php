@@ -123,14 +123,14 @@ return [
         'generate' => true,
         'methods' => [
             'viewAny', 'view', 'create', 'update', 'delete', 'restore',
-            'forceDelete', 'forceDeleteAny', 'restoreAny', 'approve', 'reorder','download',
+            'forceDelete', 'Reject', 'restoreAny', 'approve', 'reorder','download',
         ],
         'single_parameter_methods' => [
             'viewAny',
             'approve',
             'create',
             'deleteAny',
-            'forceDeleteAny',
+            'reject',
             'restoreAny',
             'reorder',
             'download',

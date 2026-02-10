@@ -1,50 +1,75 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Policies;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
 use App\Models\Document;
-use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class DocumentPolicy
 {
-    /**
-     * Create a new policy instance.
-     */
-    public function __construct()
+    use HandlesAuthorization;
+    
+    public function viewAny(AuthUser $authUser): bool
     {
-        //
+        return $authUser->can('ViewAny:Document');
     }
 
-    public function view(User $user, Document $document): bool
+    public function view(AuthUser $authUser, Document $document): bool
     {
-        if ($user->hasRole('Admin') || $user->hasRole('Approver')) {
-            return true;
-        }
-
-        if ($user->hasRole('Uploader')) {
-            return $document->uploaded_by === $user->id;
-        }
-
-        if ($user->hasRole('Viewer')) {
-            return $document->isApproved();
-        }
-
-        return false;
+        return $authUser->can('View:Document');
     }
 
-    public function update(User $user, Document $document): bool
+    public function create(AuthUser $authUser): bool
     {
-        return $user->hasRole('Admin') ||
-            ($user->hasRole('Uploader') && $document->uploaded_by === $user->id);
+        return $authUser->can('Create:Document');
     }
 
-    public function approve(User $user): bool
+    public function update(AuthUser $authUser, Document $document): bool
     {
-        return $user->hasRole('Admin') || $user->hasRole('Approver');
+        return $authUser->can('Update:Document');
     }
 
-    public function delete(User $user, Document $document): bool
+    public function delete(AuthUser $authUser, Document $document): bool
     {
-        return $user->hasRole('Admin');
+        return $authUser->can('Delete:Document');
     }
+
+    public function restore(AuthUser $authUser, Document $document): bool
+    {
+        return $authUser->can('Restore:Document');
+    }
+
+    public function forceDelete(AuthUser $authUser, Document $document): bool
+    {
+        return $authUser->can('ForceDelete:Document');
+    }
+
+    public function reject(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reject:Document');
+    }
+
+    public function restoreAny(AuthUser $authUser): bool
+    {
+        return $authUser->can('RestoreAny:Document');
+    }
+
+    public function approve(AuthUser $authUser): bool
+    {
+        return $authUser->can('Approve:Document');
+    }
+
+    public function reorder(AuthUser $authUser): bool
+    {
+        return $authUser->can('Reorder:Document');
+    }
+
+    public function download(AuthUser $authUser): bool
+    {
+        return $authUser->can('Download:Document');
+    }
+
 }
