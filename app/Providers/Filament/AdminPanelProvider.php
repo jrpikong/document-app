@@ -35,7 +35,8 @@ class AdminPanelProvider extends PanelProvider
             ->spa()
             ->brandName('Turangga DMS')
             ->brandLogo(asset('logo/Logo_Turangga.png'))
-            ->brandLogoHeight('3rem')
+            ->brandLogoHeight('2.5rem')
+            ->favicon(asset('logo/favicon-1.ico'))
             ->colors([
                 'primary' => Color::Blue,
             ])
