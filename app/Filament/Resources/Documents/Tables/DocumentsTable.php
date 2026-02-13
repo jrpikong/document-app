@@ -72,10 +72,11 @@ class DocumentsTable
                     ->label('Submit')
                     ->icon('heroicon-o-paper-airplane')
                     ->color('warning')
-                    ->visible(fn ($record) =>
-                        $record->status === Document::STATUS_DRAFT &&
-                        auth()->id() === $record->uploaded_by
-                    )
+                    ->visible(function ($record) {
+                        return (string) $record->status === (string) Document::STATUS_DRAFT
+                            && (int) auth()->id() === (int) $record->uploaded_by;
+                    })
+                    ->authorize('update')
                     ->action(function ($record) {
                         app(DocumentWorkflowService::class)
                             ->submit($record, auth()->user());
@@ -94,7 +95,7 @@ class DocumentsTable
                     ->color('success')
                     ->authorize('approve')
                     ->visible(fn ($record) =>
-                        $record->status === Document::STATUS_SUBMITTED
+                    (string)$record->status === (string)Document::STATUS_SUBMITTED
                     )
                     ->requiresConfirmation()
                     ->action(function ($record) {
@@ -115,7 +116,7 @@ class DocumentsTable
                     ->color('danger')
                     ->authorize('approve')
                     ->visible(fn ($record) =>
-                        $record->status === Document::STATUS_SUBMITTED
+                        (string)$record->status === (string)Document::STATUS_SUBMITTED
                     )
                     ->schema([
                         Textarea::make('note')
