@@ -76,7 +76,9 @@ class DocumentsTable
                         $record->status === Document::STATUS_DRAFT &&
                         auth()->id() === $record->uploaded_by
                     )
-                    ->authorize('update')
+                    ->authorize(fn ($record) =>
+                    auth()->user()?->can('update', $record)
+                    )
                     ->action(function ($record) {
                         app(DocumentWorkflowService::class)
                             ->submit($record, auth()->user());
