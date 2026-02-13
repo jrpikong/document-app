@@ -150,7 +150,7 @@ class DocumentForm
                         TextEntry::make('file_size')
                             ->label('📦 File Size')
                             ->default('0 B')
-                            ->formatStateUsing(fn ($state) => self::formatBytes($state ?? 0))
+                            ->formatStateUsing(fn ($state) => self::formatBytes((int) ($state ?? 0))) // Cast ke int di sini
                             ->icon('heroicon-o-archive-box')
                             ->visible(fn ($record) => $record !== null && $record->file_path)
                             ->columnSpan(1),
@@ -235,8 +235,11 @@ class DocumentForm
             ]);
     }
 
-    private static function formatBytes(int $bytes, int $precision = 2): string
+    private static function formatBytes($bytes, int $precision = 2): string
     {
+        // Convert to integer, handle null/empty values
+        $bytes = (int) ($bytes ?? 0);
+
         $units = ['B', 'KB', 'MB', 'GB', 'TB'];
 
         for ($i = 0; $bytes > 1024 && $i < count($units) - 1; $i++) {
