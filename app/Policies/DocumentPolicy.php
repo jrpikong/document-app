@@ -67,7 +67,7 @@ class DocumentPolicy
         return $authUser->can('Reorder:Document');
     }
 
-    public function download(AuthUser $authUser): bool
+    public function download(AuthUser $authUser, ?Document $document = null): bool
     {
         return $authUser->can('Download:Document');
     }

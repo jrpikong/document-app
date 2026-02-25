@@ -103,8 +103,8 @@ class DocumentForm
                                     ->directory('documents')
                                     ->visibility('public')
                                     ->preserveFilenames()
-                                    ->downloadable()
-                                    ->openable()
+                                    ->downloadable(false)
+                                    ->openable(false)
                                     ->previewable(true)
                                     ->acceptedFileTypes([
                                         'application/pdf',

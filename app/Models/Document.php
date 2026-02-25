@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\Storage;
 
 class Document extends Model
 {
@@ -38,16 +37,12 @@ class Document extends Model
 
     public function getPreviewUrl(): string
     {
-        $disk = Storage::disk('public');
+        return route('documents.files.show', $this);
+    }
 
-        if ($disk->providesTemporaryUrls()) {
-            return $disk->temporaryUrl(
-                $this->file_path,
-                now()->addMinutes(10)
-            );
-        }
-
-        return $disk->url($this->file_path);
+    public function getDownloadUrl(): string
+    {
+        return route('documents.files.download', $this);
     }
 
     /* ================= RELATIONS ================= */

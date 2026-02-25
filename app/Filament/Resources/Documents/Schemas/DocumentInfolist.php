@@ -7,7 +7,6 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ViewEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Storage;
 
 class DocumentInfolist
 {
@@ -61,7 +60,7 @@ class DocumentInfolist
                     TextEntry::make('file_path')
                         ->label('Download')
                         ->formatStateUsing(fn ($state) => 'Download File')
-                        ->url(fn ($record) => Storage::url($record->file_path))
+                        ->url(fn ($record) => $record->getDownloadUrl())
                         ->openUrlInNewTab()
                         ->icon('heroicon-o-arrow-down-tray'),
                 ]),
