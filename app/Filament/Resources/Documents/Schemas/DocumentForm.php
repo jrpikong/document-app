@@ -101,7 +101,7 @@ class DocumentForm
                                     ->label('Document File')
                                     ->disk('public')
                                     ->directory('documents')
-                                    ->visibility('private')
+                                    ->visibility('public')
                                     ->preserveFilenames()
                                     ->downloadable()
                                     ->openable()

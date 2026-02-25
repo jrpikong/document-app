@@ -38,10 +38,16 @@ class Document extends Model
 
     public function getPreviewUrl(): string
     {
-        return Storage::temporaryUrl(
-            $this->file_path,
-            now()->addMinutes(10)
-        );
+        $disk = Storage::disk('public');
+
+        if ($disk->providesTemporaryUrls()) {
+            return $disk->temporaryUrl(
+                $this->file_path,
+                now()->addMinutes(10)
+            );
+        }
+
+        return $disk->url($this->file_path);
     }
 
     /* ================= RELATIONS ================= */
