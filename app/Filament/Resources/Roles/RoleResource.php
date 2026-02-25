@@ -37,8 +37,12 @@ class RoleResource extends Resource
     use Essentials\HasLabels;
     use Essentials\HasNavigation;
     use HasShieldFormComponents;
-
     protected static ?string $recordTitleAttribute = 'name';
+
+    public static function canGloballySearch(): bool
+    {
+        return false;
+    }
 
     public static function form(Schema $schema): Schema
     {
