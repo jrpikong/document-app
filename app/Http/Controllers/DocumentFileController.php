@@ -18,7 +18,7 @@ class DocumentFileController extends Controller
         $this->authorize('download', $document);
 
         $path = (string) $document->file_path;
-        $disk = Storage::disk('public');
+        $disk = Storage::disk($document->resolveStorageDisk());
 
         abort_unless($path !== '' && $disk->exists($path), 404, 'File not found.');
 
@@ -37,7 +37,7 @@ class DocumentFileController extends Controller
         $this->authorize('download', $document);
 
         $path = (string) $document->file_path;
-        $disk = Storage::disk('public');
+        $disk = Storage::disk($document->resolveStorageDisk());
 
         abort_unless($path !== '' && $disk->exists($path), 404, 'File not found.');
 

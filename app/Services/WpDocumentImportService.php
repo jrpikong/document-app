@@ -275,7 +275,7 @@ class WpDocumentImportService
      */
     private function prepareFile(int $legacyId, string $fileUrl, bool $skipFiles, bool $redownloadFiles): array
     {
-        $disk = 'public';
+        $disk = 'local';
         $originalName = $this->extractOriginalName($fileUrl);
         if ($originalName === '') {
             $originalName = "legacy-{$legacyId}.bin";
@@ -284,7 +284,6 @@ class WpDocumentImportService
         if ($skipFiles) {
             $filePath = "documents/imported/wp/pointers/legacy-{$legacyId}.txt";
             Storage::disk($disk)->put($filePath, trim($fileUrl));
-            Storage::disk($disk)->setVisibility($filePath, 'public');
 
             return [
                 'file_path' => $filePath,
@@ -316,7 +315,6 @@ class WpDocumentImportService
         }
 
         Storage::disk($disk)->put($filePath, $response->body());
-        Storage::disk($disk)->setVisibility($filePath, 'public');
 
         return [
             'file_path' => $filePath,

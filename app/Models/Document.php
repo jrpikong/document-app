@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Storage;
 
 class Document extends Model
 {
@@ -34,6 +35,8 @@ class Document extends Model
     const STATUS_SUBMITTED = 'submitted';
     const STATUS_APPROVED = 'approved';
     const STATUS_REJECTED = 'rejected';
+    const PRIVATE_DISK = 'local';
+    const PUBLIC_DISK = 'public';
 
     public function getPreviewUrl(): string
     {
@@ -43,6 +46,21 @@ class Document extends Model
     public function getDownloadUrl(): string
     {
         return route('documents.files.download', $this);
+    }
+
+    public function resolveStorageDisk(): string
+    {
+        $path = (string) $this->file_path;
+
+        if ($path !== '' && Storage::disk(self::PRIVATE_DISK)->exists($path)) {
+            return self::PRIVATE_DISK;
+        }
+
+        if ($path !== '' && Storage::disk(self::PUBLIC_DISK)->exists($path)) {
+            return self::PUBLIC_DISK;
+        }
+
+        return self::PRIVATE_DISK;
     }
 
     /* ================= RELATIONS ================= */

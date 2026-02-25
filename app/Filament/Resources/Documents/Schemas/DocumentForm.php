@@ -70,7 +70,7 @@ class DocumentForm
                     ->collapsible(),
 
                 Section::make('File Upload')
-                    ->description('Upload your document file (PDF, Excel, Word, or Image)')
+                    ->description('Upload your document file (PDF, Excel, Word, Image, ZIP, or RAR)')
                     ->icon('heroicon-o-cloud-arrow-up')
                     ->schema([
                         Section::make('')
@@ -87,6 +87,7 @@ class DocumentForm
                                                 <li>Excel files (.xlsx, .xls)</li>
                                                 <li>Word documents (.doc, .docx)</li>
                                                 <li>Images (.jpg, .png, .gif, .webp)</li>
+                                                <li>Compressed files (.zip, .rar)</li>
                                             </ul>
                                             <p class="font-semibold text-blue-900 dark:text-blue-100 mt-3">⚠️ Important:</p>
                                             <ul class="list-disc list-inside space-y-1 text-blue-800 dark:text-blue-200">
@@ -99,9 +100,9 @@ class DocumentForm
 
                                 FileUpload::make('file_path')
                                     ->label('Document File')
-                                    ->disk('public')
+                                    ->disk('local')
                                     ->directory('documents')
-                                    ->visibility('public')
+                                    ->visibility('private')
                                     ->preserveFilenames()
                                     ->downloadable(false)
                                     ->openable(false)
@@ -116,6 +117,10 @@ class DocumentForm
                                         'image/png',
                                         'image/gif',
                                         'image/webp',
+                                        'application/zip',
+                                        'application/x-zip-compressed',
+                                        'application/vnd.rar',
+                                        'application/x-rar-compressed',
                                     ])
                                     ->maxSize(10240) // 10MB
                                     ->helperText('Drag & drop or click to upload. Max 10MB')
