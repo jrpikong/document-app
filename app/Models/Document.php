@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
 
@@ -63,6 +64,11 @@ class Document extends Model
     public function histories(): HasMany
     {
         return $this->hasMany(DocumentHistory::class);
+    }
+
+    public function legacyMap(): HasOne
+    {
+        return $this->hasOne(LegacyDocumentMap::class);
     }
 
     /* ================= STATUS HELPERS ================= */
